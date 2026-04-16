@@ -10,25 +10,15 @@ SDL_Texture* g_texture = nullptr;
 
 int main(int argc, char* argv[])
 {
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	//if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	if (!InitSDL())
 	{
 		std::cout << "SDL did not initialise. Error: " << SDL_GetError();
 		return false;
 	}
 	else
 	{
-		g_window = SDL_CreateWindow("Bespoke Platform Development",
-			SDL_WINDOWPOS_UNDEFINED,
-			SDL_WINDOWPOS_UNDEFINED,
-			SCREEN_WIDTH,
-			SCREEN_HEIGHT,
-			SDL_WINDOW_SHOWN);
-		if (g_window == nullptr)
-		{
-			//Window failed
-			std::cout << "Window was not created. Error: " << SDL_GetError();
-			return false;
-		}
+		
 	}
 
 	//Flag to check if we wish to quit
@@ -51,6 +41,22 @@ bool InitSDL()
 		std::cout << "SDL could not initialise. SDL error: " << SDL_GetError() << std::endl;
 		return false;
 	}
+	
+	
+	g_window = SDL_CreateWindow("Bespoke Platform Development",
+		SDL_WINDOWPOS_UNDEFINED,
+		SDL_WINDOWPOS_UNDEFINED,
+		SCREEN_WIDTH,
+		SCREEN_HEIGHT,
+		SDL_WINDOW_SHOWN);
+	
+	if (g_window == nullptr)
+	{
+		//Window failed
+		std::cout << "Window was not created. Error: " << SDL_GetError();
+		return false;
+	}
+	
 
 	SDL_JoystickOpen(1);
 
@@ -60,6 +66,7 @@ bool InitSDL()
 	{
 		//init png loading
 		int imageFlags = IMG_INIT_PNG;
+		
 		if(!(IMG_Init(imageFlags) & imageFlags))
 		{
 			std::cout << "SDL_image could not initialise. SDL_image error: " << IMG_GetError() << std::endl;
@@ -72,7 +79,7 @@ bool InitSDL()
 		return false;
 	}
 
-	g_texture = LoadTextureFromFile("Images\TallDarkAndHandsome.png");
+	g_texture = LoadTextureFromFile("Images/TallDarkAndHandsome.png");
 	if (g_texture == nullptr)
 	{
 		return false;
