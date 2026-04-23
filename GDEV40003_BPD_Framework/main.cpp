@@ -86,6 +86,8 @@ bool InitSDL()
 	{
 		return false;
 	}
+
+	g_texture->setSize(SCREEN_HEIGHT, SCREEN_WIDTH);
 }
 
 void CloseSDL()
@@ -149,6 +151,9 @@ void Render()
 	SDL_SetRenderDrawColor(g_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(g_renderer);
 
+	//g_texture->m_width = 800;
+	//g_texture->m_height = 800;
+
 	g_texture->Render(Vector2D(), SDL_FLIP_NONE);
 
 	//Set where to render the texture
@@ -157,7 +162,7 @@ void Render()
 	//Render the to the screen
 	//SDL_RenderCopyEx(g_renderer, g_texture, NULL, &renderLocation, 0, NULL, SDL_FLIP_NONE);
 
-	SDL_RenderPresent(g_renderer);
+	//SDL_RenderPresent(g_renderer);
 
 	//Update the screen
 	SDL_RenderPresent(g_renderer);
