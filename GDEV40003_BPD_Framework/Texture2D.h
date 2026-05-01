@@ -29,4 +29,4 @@ private:
 	int m_height;
 };
 
-#endif // _TEXTURE2D_H
+#endif 

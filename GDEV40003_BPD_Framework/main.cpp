@@ -4,11 +4,14 @@
 #include <iostream>
 #include "Texture2D.h"
 #include "Commons.h"
+#include "GameScreenManager.h"
 
 //Globals:
 SDL_Window* g_window = nullptr;
 SDL_Renderer* g_renderer = nullptr;
 Texture2D* g_texture = nullptr;
+GameScreenManager* game_screen_manager;
+Uint32 g_old_time;
 
 int main(int argc, char* argv[])
 {
@@ -38,6 +41,9 @@ int main(int argc, char* argv[])
 
 bool InitSDL()
 {
+	game_screen_manager = new GameScreenManager(g_renderer, SCREEN_LEVEL1);
+	g_old_time = SDL_GetTicks();
+
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_EVENTS) < 0)
 	{
 		std::cout << "SDL could not initialise. SDL error: " << SDL_GetError() << std::endl;
@@ -95,16 +101,17 @@ void CloseSDL()
 	SDL_DestroyWindow(g_window);
 	g_window = nullptr;
 
+	delete game_screen_manager;
+	game_screen_manager = nullptr;
+
 	SDL_Quit();
 	CloseSDL();
 
 	delete g_texture;
 	g_texture = nullptr;
 
-
-	//Clear the texture
 	//FreeTexture();
-	//Release the renderer
+
 	SDL_DestroyRenderer(g_renderer);
 	g_renderer = nullptr;
 };
@@ -113,6 +120,12 @@ bool Update()
 {
 	SDL_Event e;
 	SDL_PollEvent(&e);
+
+	Uint32 new_time = SDL_GetTicks();
+
+	game_screen_manager->Update((float)(new_time - g_old_time) / 1000.0f, e);
+
+	g_old_time = new_time;  // update for next frame
 
 	switch(e.type)
 	{
@@ -154,7 +167,8 @@ void Render()
 	//g_texture->m_width = 800;
 	//g_texture->m_height = 800;
 
-	g_texture->Render(Vector2D(), SDL_FLIP_NONE);
+	//g_texture->Render(Vector2D(), SDL_FLIP_NONE);
+	game_screen_manager->Render();
 
 	//Set where to render the texture
 	SDL_Rect renderLocation = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
