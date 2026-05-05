@@ -7,6 +7,7 @@ using namespace std;
 Texture2D::Texture2D(SDL_Renderer* renderer)
 {
     m_renderer = renderer;
+
 }
 
 // Destructor — always clean up before the object is destroyed
@@ -66,6 +67,7 @@ bool Texture2D::LoadFromFile(std::string path)
 // Render — draws the texture at new_position with optional flip and rotation
 void Texture2D::Render(Vector2D new_position, SDL_RendererFlip flip, double angle)
 {
+    
     SDL_Rect renderLocation = 
     {
         (int)new_position.x,
@@ -74,9 +76,7 @@ void Texture2D::Render(Vector2D new_position, SDL_RendererFlip flip, double angl
         m_height
     };
 
-    SDL_RenderCopyEx(m_renderer, m_texture,
-        NULL, &renderLocation,
-        angle, NULL, flip);
+    SDL_RenderCopyEx(m_renderer, m_texture, NULL, &renderLocation, angle, NULL, flip);
 }
 
 void Texture2D::setSize(int height, int width)

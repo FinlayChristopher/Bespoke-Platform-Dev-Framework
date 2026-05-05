@@ -3,14 +3,17 @@
 
 #include "GameScreen.h"
 #include "Commons.h"
+#include "Character.h"
 
+
+class Character;
 class Texture2D;   // forward declaration — "I'll explain this later, compiler"
 
 class GameScreenLevel1 : GameScreen {
 private:
     Texture2D* m_background_texture;
     bool SetUpLevel();
-
+    Character* my_character;
 public:
     GameScreenLevel1(SDL_Renderer* renderer);
     ~GameScreenLevel1();
