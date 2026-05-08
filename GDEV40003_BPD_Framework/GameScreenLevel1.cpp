@@ -32,11 +32,28 @@ bool GameScreenLevel1::SetUpLevel()
     //my_character = new Character(m_renderer, "Images/TallDarkAndHandsome.png", Vector2D(64, 330));
 
     m_background_texture = new Texture2D(m_renderer);
-    if (!m_background_texture->LoadFromFile("Images/TallDarkAndHandsome.png")) 
+    if (!m_background_texture->LoadFromFile("Images/TallDarkAndHandsome.PNG")) 
     {
         std::cout << "Failed to load background texture!" << std::endl;
         return false;
     }
 
+    return true;
+}
+
+bool GameScreenLevel1::SetUpLevel()
+{
+    if (m_renderer == nullptr)
+    {
+        std::cout << "m_renderer is null at start of SetUpLevel!" << std::endl;
+        return false;
+    }
+
+    m_background_texture = new Texture2D(m_renderer);
+    if (!m_background_texture->LoadFromFile("Images/TallDarkAndHandsome.PNG"))
+    {
+        std::cout << "Failed to load background texture!" << std::endl;
+        return false;
+    }
     return true;
 }
