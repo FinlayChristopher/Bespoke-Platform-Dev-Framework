@@ -9,7 +9,8 @@
 class Character;
 class Texture2D;   // forward declaration — "I'll explain this later, compiler"
 
-class GameScreenLevel1 : GameScreen {
+class GameScreenLevel1 : public GameScreen 
+{
 private:
     Texture2D* m_background_texture;
     bool SetUpLevel();
