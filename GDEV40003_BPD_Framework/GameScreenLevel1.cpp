@@ -18,24 +18,27 @@ GameScreenLevel1::~GameScreenLevel1()
 
 void GameScreenLevel1::Render() 
 {
-    m_background_texture->Render(Vector2D(), SDL_FLIP_NONE);
-    my_character->Render();
+   if (m_background_texture)
+        m_background_texture->Render(Vector2D(), SDL_FLIP_NONE);
+
+    if (my_character)
+        my_character->Render();
+   //m_background_texture->Render(Vector2D(), SDL_FLIP_NONE);
+    //my_character->Render();
 }
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e) 
 {
-    my_character->Update(deltaTime, e);
+    if (my_character)
+        my_character->Update(deltaTime, e);
+    //my_character->Update(deltaTime, e);
 }
 
 bool GameScreenLevel1::SetUpLevel()
 {
-    //my_character = new Character(m_renderer, "Images/TallDarkAndHandsome.png", Vector2D(64, 330));
+    my_character = new Character(m_renderer, "Images/TallDarkAndHandsome.PNG", Vector2D(64, 330));
 
-    if (m_renderer == nullptr)
-    {
-        std::cout << "m_renderer is null at start of SetUpLevel!" << std::endl;
-        return false;
-    }
+    
 
     m_background_texture = new Texture2D(m_renderer);
     if (!m_background_texture->LoadFromFile("Images/TallDarkAndHandsome.PNG"))

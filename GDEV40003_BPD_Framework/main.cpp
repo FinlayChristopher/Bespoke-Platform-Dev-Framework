@@ -41,9 +41,7 @@ int main(int argc, char* argv[])
 
 bool InitSDL()
 {
-	game_screen_manager = new GameScreenManager(g_renderer, SCREEN_LEVEL1);
-	g_old_time = SDL_GetTicks();
-
+	
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_EVENTS) < 0)
 	{
 		std::cout << "SDL could not initialise. SDL error: " << SDL_GetError() << std::endl;
@@ -58,14 +56,13 @@ bool InitSDL()
 		SCREEN_HEIGHT,
 		SDL_WINDOW_SHOWN);
 	
+
 	if (g_window == nullptr)
 	{
-		//Window failed
 		std::cout << "Window was not created. Error: " << SDL_GetError();
 		return false;
 	}
 	
-
 	SDL_JoystickOpen(1);
 
 	g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
@@ -87,8 +84,12 @@ bool InitSDL()
 		return false;
 	}
 
+	game_screen_manager = new GameScreenManager(g_renderer, SCREEN_LEVEL1);
+	g_old_time = SDL_GetTicks();
+
+
 	g_texture = new Texture2D(g_renderer);
-	if (!g_texture->LoadFromFile("Images/TallDarkAndHandsome.png"))
+	if (!g_texture->LoadFromFile("Images/TallDarkAndHandsome.PNG"))
 	{
 		return false;
 	}
