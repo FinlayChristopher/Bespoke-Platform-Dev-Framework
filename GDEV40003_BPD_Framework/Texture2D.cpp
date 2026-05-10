@@ -66,8 +66,7 @@ bool Texture2D::LoadFromFile(std::string path)
 
 // Render — draws the texture at new_position with optional flip and rotation
 void Texture2D::Render(Vector2D new_position, SDL_RendererFlip flip, double angle)
-{
-    
+{ 
     SDL_Rect renderLocation = 
     {
         (int)new_position.x,

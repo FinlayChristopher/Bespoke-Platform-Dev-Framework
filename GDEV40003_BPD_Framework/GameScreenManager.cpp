@@ -3,13 +3,15 @@
 #include "GameScreenLevel1.h"
 #include "Commons.h"
 
-GameScreenManager::GameScreenManager(SDL_Renderer* renderer, SCREENS startScreen) {
+GameScreenManager::GameScreenManager(SDL_Renderer* renderer, SCREENS startScreen) 
+{
     m_renderer = renderer;
     m_current_screen = nullptr;
     ChangeScreen(startScreen);   // immediately load the starting screen
 }
 
-GameScreenManager::~GameScreenManager() {
+GameScreenManager::~GameScreenManager() 
+{
     m_renderer = nullptr;
     delete m_current_screen;
     m_current_screen = nullptr;
@@ -19,7 +21,8 @@ void GameScreenManager::Render() {
     m_current_screen->Render();
 }
 
-void GameScreenManager::Update(float deltaTime, SDL_Event e) {
+void GameScreenManager::Update(float deltaTime, SDL_Event e) 
+{
     m_current_screen->Update(deltaTime, e);
 }
 

@@ -1,10 +1,12 @@
 #include "GameScreen.h"
 
-GameScreen::GameScreen(SDL_Renderer* renderer) {
+GameScreen::GameScreen(SDL_Renderer* renderer) 
+{
     m_renderer = renderer;  // store the renderer reference
 }
 
-GameScreen::~GameScreen() {
+GameScreen::~GameScreen() 
+{
     m_renderer = nullptr;   // don't delete — we don't own it
 }
 

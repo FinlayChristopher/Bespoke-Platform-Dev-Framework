@@ -27,3 +27,16 @@ enum SCREENS
 	SCREEN_GAMEOVER,
 	SCREEN_HIGHSCORES
 };
+
+struct Rect2D
+{
+	float x, y, w, h;
+
+	Rect2D(float x_pos, float y_pos, float width, float height)
+	{
+		x = x_pos;
+		y = y_pos;
+		this->w = width;
+		this->h = height;
+	}
+};

@@ -6,7 +6,8 @@
 
 class GameScreen;   // forward declaration
 
-class GameScreenManager {
+class GameScreenManager 
+{
 private:
     SDL_Renderer* m_renderer;
     GameScreen* m_current_screen;

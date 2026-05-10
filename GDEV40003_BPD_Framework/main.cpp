@@ -94,7 +94,7 @@ bool InitSDL()
 		return false;
 	}
 
-	g_texture->setSize(SCREEN_HEIGHT, SCREEN_WIDTH);
+	g_texture->setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 void CloseSDL()

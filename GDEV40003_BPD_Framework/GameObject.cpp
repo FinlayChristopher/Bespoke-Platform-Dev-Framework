@@ -5,6 +5,7 @@ GameObject::GameObject(SDL_Renderer* renderer, std::string imagePath, Vector2D s
 {
     m_renderer = renderer;
     m_position = start_position;
+    m_collision_radius = 32.0f;
 
     m_texture = new Texture2D(m_renderer);
     if (!m_texture->LoadFromFile(imagePath))
@@ -36,4 +37,9 @@ void GameObject::SetPosition(Vector2D new_position)
 Vector2D GameObject::GetPosition() 
 { 
     return m_position; 
+}
+
+float GameObject::GetCollisionRadius()
+{
+    return m_collision_radius;
 }
