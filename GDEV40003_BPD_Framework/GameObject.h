@@ -1,7 +1,8 @@
 #pragma once
+#include "Commons.h"
+#include "Texture2D.h"
 #include <SDL.h>
 #include <iostream>
-#include "Commons.h"
 
 class Texture2D;
 

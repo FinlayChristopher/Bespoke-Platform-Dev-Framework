@@ -33,12 +33,12 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
     if (my_character)
         my_character->Update(deltaTime, e);
     
-    if (Collisions::Instance()->Circle(my_character))
+    if (Collisions::Instance()->Circle(my_character, my_other_character))
     {
         std::cout << "Circle hit!" << std::endl;
     }
 
-    if (Collisions::Instance()->Box(my_character))
+    if (Collisions::Instance()->Box(my_character, my_other_character))
     {
         std::cout << "Box hit!" << std::endl;
     }
@@ -47,7 +47,8 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 
 bool GameScreenLevel1::SetUpLevel()
 {
-    //my_character = new Character(m_renderer, "Images/TallDarkAndHandsome.PNG", Vector2D(64, 330));
+    my_character = new Character(m_renderer, "Images/TallDarkAndHandsome.PNG", Vector2D(64, 330));
+    my_other_character = new Character(m_renderer, "Images\plant1.jpg", Vector2D(200, 200));
 
     m_background_texture = new Texture2D(m_renderer);
     if (!m_background_texture->LoadFromFile("Images/TallDarkAndHandsome.PNG"))

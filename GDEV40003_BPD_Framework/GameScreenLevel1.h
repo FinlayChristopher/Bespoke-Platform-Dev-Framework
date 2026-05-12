@@ -15,6 +15,7 @@ private:
     Texture2D* m_background_texture;
     bool SetUpLevel();
     Character* my_character;
+    Character* my_other_character;
 public:
     GameScreenLevel1(SDL_Renderer* renderer);
     ~GameScreenLevel1();
