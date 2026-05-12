@@ -23,8 +23,12 @@ void Character::Update(float deltaTime, SDL_Event e)
     case SDL_KEYDOWN:
         switch (e.key.keysym.sym)
         {
-        case SDLK_LEFT:  m_position.x -= 1; break;
-        case SDLK_RIGHT: m_position.x += 1; break;
+        case SDLK_LEFT:  m_position.x -= 10; break;
+        case SDLK_RIGHT: m_position.x += 10; break;
+        case SDLK_a:     m_position.x -= 10; break;  // A key moves left
+        case SDLK_d:     m_position.x += 10; break;  // D key moves right
+        case SDLK_w:     m_position.y -= 10; break;  // W key moves up
+        case SDLK_s:     m_position.y += 10; break;  // S key moves down
         }
         break;
     }
