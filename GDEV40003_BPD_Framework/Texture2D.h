@@ -20,7 +20,7 @@ public:
 	int GetWidth() { return m_width; }
 	int GetHeight() { return m_height; }
 
-	void setSize(int height, int width);
+	void setSize(float width, float height);
 private:
 	SDL_Renderer* m_renderer;
 	SDL_Texture* m_texture;

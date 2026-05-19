@@ -93,28 +93,21 @@ bool InitSDL()
 	{
 		return false;
 	}
-
 	g_texture->setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	return true;
 }
 
 void CloseSDL()
 {
-	SDL_DestroyWindow(g_window);
-	g_window = nullptr;
-
 	delete game_screen_manager;
 	game_screen_manager = nullptr;
-
-	SDL_Quit();
-	CloseSDL();
-
 	delete g_texture;
 	g_texture = nullptr;
-
-	//FreeTexture();
-
 	SDL_DestroyRenderer(g_renderer);
 	g_renderer = nullptr;
+	SDL_DestroyWindow(g_window);
+	g_window = nullptr;
+	SDL_Quit();
 };
 
 bool Update()

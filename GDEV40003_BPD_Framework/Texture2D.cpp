@@ -77,9 +77,8 @@ void Texture2D::Render(Vector2D new_position, SDL_RendererFlip flip, double angl
     SDL_RenderCopyEx(m_renderer, m_texture, NULL, &renderLocation, angle, NULL, flip);
 }
 
-void Texture2D::setSize(int width, int height)
+void Texture2D::setSize(float width, float height)
 {
-    m_width = width;
-    m_height = height;
+    m_width = (int)width;
+    m_height = (int)height;
 }
-

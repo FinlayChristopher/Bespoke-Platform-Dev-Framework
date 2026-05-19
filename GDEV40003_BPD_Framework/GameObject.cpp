@@ -8,7 +8,11 @@ GameObject::GameObject(SDL_Renderer* renderer, std::string imagePath, Vector2D s
     m_collision_radius = 32.0f;
 
     m_texture = new Texture2D(m_renderer);
-    if (!m_texture->LoadFromFile(imagePath))
+    if (m_texture->LoadFromFile(imagePath))
+    {
+        m_texture->setSize(64.0f, 64.0f);  // must be INSIDE the if block
+    }
+    else
     {
         std::cout << "Failed to load texture from: " << imagePath << std::endl;
     }
