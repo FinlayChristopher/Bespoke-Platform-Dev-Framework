@@ -22,7 +22,7 @@ public:
     virtual void Render();
     virtual void Update(float deltaTime, SDL_Event e);
 
-    void    SetPosition(Vector2D new_position);
+    void SetPosition(Vector2D new_position);
     Vector2D GetPosition();
 
     Rect2D GetCollisionBox()
@@ -30,5 +30,4 @@ public:
         return Rect2D(m_position.x, m_position.y,
             m_texture->GetWidth(), m_texture->GetHeight());
     }
-
 };

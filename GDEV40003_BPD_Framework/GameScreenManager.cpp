@@ -1,13 +1,14 @@
 #include "GameScreenManager.h"
 #include "GameScreen.h"
 #include "GameScreenLevel1.h"
+#include "GameScreenCompletion.h"
 #include "Commons.h"
 
 GameScreenManager::GameScreenManager(SDL_Renderer* renderer, SCREENS startScreen) 
 {
     m_renderer = renderer;
     m_current_screen = nullptr;
-    ChangeScreen(startScreen);   // immediately load the starting screen
+    ChangeScreen(startScreen);
 }
 
 GameScreenManager::~GameScreenManager() 
@@ -27,22 +28,24 @@ void GameScreenManager::Update(float deltaTime, SDL_Event e)
 }
 
 void GameScreenManager::ChangeScreen(SCREENS new_screen) {
-    // Clean up the old screen first
     if (m_current_screen != nullptr) {
         delete m_current_screen;
     }
 
-    // Declare temp pointer outside the switch (C++ requirement)
-    GameScreenLevel1* tempScreen;
+    GameScreen* tempScreen = nullptr;
 
     switch (new_screen) {
-    case SCREEN_LEVEL1:
-        tempScreen = new GameScreenLevel1(m_renderer);
-        m_current_screen = (GameScreen*)tempScreen;  // upcast to base pointer
-        tempScreen = nullptr;
-        break;
+        case SCREEN_LEVEL1:
+            tempScreen = new GameScreenLevel1(m_renderer, this);
+            break;
 
-    default:
-        break;
+        case SCREEN_COMPLETION:
+            tempScreen = new GameScreenCompletion(m_renderer);
+            break;
+
+        default:
+            break;
     }
+
+    m_current_screen = tempScreen;
 }

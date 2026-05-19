@@ -8,6 +8,12 @@ const float MOVE_SPEED = 200.0f;
 Character::Character(SDL_Renderer* renderer, std::string imagePath, Vector2D startPosition)
     : GameObject(renderer, imagePath, startPosition)
 {
+    // Override default size - make player half size (32x32 instead of 64x64)
+    if (m_texture)
+    {
+        m_texture->setSize(32.0f, 32.0f);
+    }
+    
     m_velocity_y = 0.0f;
     m_grounded = false;
     m_jumping = false;
@@ -42,23 +48,10 @@ void Character::Update(float deltaTime, SDL_Event e)
 
     m_last_position_y = m_position.y;
 
-    // Always apply gravity unless grounded (simplified)
+    // Always apply gravity
     m_velocity_y += GRAVITY * deltaTime;
 
     m_position.y += m_velocity_y * deltaTime;
-
-    float floorY = 416.0f - m_texture->GetHeight();
-    if (m_position.y >= floorY)
-    {
-        m_position.y = floorY;
-        m_velocity_y = 0.0f;
-        m_grounded = true;
-        m_jumping = false;
-    }
-    else
-    {
-        m_grounded = false;  // <-- KEY: Unground if above floor
-    }
 }
 
 void Character::ResolveCollision(float platformTop)

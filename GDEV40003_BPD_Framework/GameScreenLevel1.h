@@ -4,11 +4,12 @@
 #include "Commons.h"
 #include "Character.h"
 #include "platform.h"
+#include "Pickups.h"
 #include <vector>
 
-
 class Character;
-class Texture2D;   // forward declaration — "I'll explain this later, compiler"
+class Texture2D;
+class GameScreenManager;
 
 class GameScreenLevel1 : public GameScreen 
 {
@@ -17,8 +18,12 @@ private:
     bool SetUpLevel();
     Character* my_character;
     std::vector<Platform*> m_platforms;
+    std::vector<Pickups*> m_pickups;
+    int m_current_pickup;
+    GameScreenManager* m_screen_manager;
+
 public:
-    GameScreenLevel1(SDL_Renderer* renderer);
+    GameScreenLevel1(SDL_Renderer* renderer, GameScreenManager* manager = nullptr);
     ~GameScreenLevel1();
     void Render() override;
     void Update(float deltaTime, SDL_Event e) override;
