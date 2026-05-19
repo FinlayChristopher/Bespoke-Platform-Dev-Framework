@@ -15,12 +15,13 @@ class GameScreenLevel1 : public GameScreen
 {
 private:
     Texture2D* m_background_texture;
-    bool SetUpLevel();
-    Character* my_character;
+    Character* m_character;
     std::vector<Platform*> m_platforms;
     std::vector<Pickups*> m_pickups;
     int m_current_pickup;
     GameScreenManager* m_screen_manager;
+
+    bool SetUpLevel();
 
 public:
     GameScreenLevel1(SDL_Renderer* renderer, GameScreenManager* manager = nullptr);

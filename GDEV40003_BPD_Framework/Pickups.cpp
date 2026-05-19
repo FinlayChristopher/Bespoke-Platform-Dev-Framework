@@ -4,7 +4,6 @@
 Pickups::Pickups(SDL_Renderer* renderer, std::string imagePath, Vector2D startPosition)
     : GameObject(renderer, imagePath, startPosition), m_collected(false)
 {
-    // Set pickup size smaller than default
     if (m_texture)
     {
         m_texture->setSize(32.0f, 32.0f);

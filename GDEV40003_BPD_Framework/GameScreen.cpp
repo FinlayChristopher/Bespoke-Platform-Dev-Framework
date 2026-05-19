@@ -2,14 +2,18 @@
 
 GameScreen::GameScreen(SDL_Renderer* renderer) 
 {
-    m_renderer = renderer;  // store the renderer reference
+    m_renderer = renderer;
 }
 
 GameScreen::~GameScreen() 
 {
-    m_renderer = nullptr;   // don't delete — we don't own it
+    m_renderer = nullptr;
 }
 
-void GameScreen::Render() {}   // empty — subclasses override
+void GameScreen::Render() 
+{
+}
 
-void GameScreen::Update(float deltaTime, SDL_Event e) {}
+void GameScreen::Update(float deltaTime, SDL_Event e) 
+{
+}

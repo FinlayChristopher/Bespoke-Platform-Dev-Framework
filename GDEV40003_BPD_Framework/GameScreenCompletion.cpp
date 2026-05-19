@@ -17,40 +17,34 @@ GameScreenCompletion::~GameScreenCompletion()
 
 void GameScreenCompletion::Render()
 {
-    // Render background
     if (m_background_texture)
     {
         m_background_texture->Render(Vector2D(0, 0), SDL_FLIP_NONE);
     }
 
-    // Render semi-transparent dark overlay
     SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(m_renderer, 0x00, 0x00, 0x00, 180);
     SDL_Rect overlay = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
     SDL_RenderFillRect(m_renderer, &overlay);
 
-    // Draw completion message box
     SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 255);
     SDL_Rect messageBox = { 150, 200, SCREEN_WIDTH - 300, 150 };
     SDL_RenderDrawRect(m_renderer, &messageBox);
     
-    // Fill the box with a darker color
     SDL_SetRenderDrawColor(m_renderer, 0x20, 0x20, 0x20, 255);
     SDL_RenderFillRect(m_renderer, &messageBox);
 
-    // Draw white border
     SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 255);
     SDL_RenderDrawRect(m_renderer, &messageBox);
 }
 
 void GameScreenCompletion::Update(float deltaTime, SDL_Event e)
 {
-    // Press SPACE or RETURN to restart
     const Uint8* keystates = SDL_GetKeyboardState(NULL);
 
     if (keystates[SDL_SCANCODE_SPACE] || keystates[SDL_SCANCODE_RETURN])
     {
-        // Restart game - this would be handled by the screen manager
+        return;
     }
 }
 
@@ -59,7 +53,7 @@ bool GameScreenCompletion::SetUpScreen()
     m_background_texture = new Texture2D(m_renderer);
     if (!m_background_texture->LoadFromFile("Images/BackgroundSky.PNG"))
     {
-        std::cout << "Failed to load completion screen background!" << std::endl;
+        std::cout << "Failed to load completion screen background" << std::endl;
         return false;
     }
     m_background_texture->setSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);

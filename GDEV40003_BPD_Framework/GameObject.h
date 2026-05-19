@@ -25,7 +25,7 @@ public:
     void SetPosition(Vector2D new_position);
     Vector2D GetPosition();
 
-    virtual Rect2D GetCollisionBox()
+    Rect2D GetCollisionBox()
     {
         return Rect2D(m_position.x, m_position.y,
             m_texture->GetWidth(), m_texture->GetHeight());

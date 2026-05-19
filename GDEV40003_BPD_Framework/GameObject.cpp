@@ -10,11 +10,11 @@ GameObject::GameObject(SDL_Renderer* renderer, std::string imagePath, Vector2D s
     m_texture = new Texture2D(m_renderer);
     if (m_texture->LoadFromFile(imagePath))
     {
-        m_texture->setSize(64.0f, 64.0f);  // must be INSIDE the if block
+        m_texture->setSize(64.0f, 64.0f);
     }
     else
     {
-        std::cout << "Failed to load texture from: " << imagePath << std::endl;
+        std::cout << "Failed to load texture: " << imagePath << std::endl;
     }
 }
 
@@ -30,7 +30,6 @@ void GameObject::Render()
 
 void GameObject::Update(float deltaTime, SDL_Event e) 
 {
-
 }
 
 void GameObject::SetPosition(Vector2D new_position) 
