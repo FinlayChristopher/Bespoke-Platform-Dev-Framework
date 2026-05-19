@@ -8,9 +8,14 @@ const float MOVE_SPEED = 200.0f;
 Character::Character(SDL_Renderer* renderer, std::string imagePath, Vector2D startPosition)
     : GameObject(renderer, imagePath, startPosition)
 {
+    // Override default size - make player half size (32x32 instead of 64x64)
+    if (m_texture)
+    {
+        m_texture->setSize(32.0f, 32.0f);
+    }
+    
     m_velocity_y = 0.0f;
     m_grounded = false;
-    m_was_grounded = false;
     m_jumping = false;
     m_wasSpacePressed = false;
     m_last_position_y = startPosition.y;
@@ -33,38 +38,20 @@ void Character::Update(float deltaTime, SDL_Event e)
         m_position.x += MOVE_SPEED * deltaTime;
 
     bool spaceHeld = keystates[SDL_SCANCODE_SPACE] || keystates[SDL_SCANCODE_W];
-
-    // Use m_was_grounded — this is grounded state from END of last frame
-    // so it's reliable regardless of when m_grounded resets this frame
-    if (spaceHeld && !m_wasSpacePressed && m_was_grounded)
+    if (spaceHeld && !m_wasSpacePressed && m_grounded)
     {
         m_velocity_y = JUMP_FORCE;
-        m_jumping = true;
         m_grounded = false;
-        m_was_grounded = false;
+        m_jumping = true;
     }
     m_wasSpacePressed = spaceHeld;
 
-    // Reset grounded — floor/platform will set it back
-    m_grounded = false;
-
     m_last_position_y = m_position.y;
 
+    // Always apply gravity
     m_velocity_y += GRAVITY * deltaTime;
+
     m_position.y += m_velocity_y * deltaTime;
-
-    // Screen floor
-    float floorY = 416.0f - m_texture->GetHeight();
-    if (m_position.y >= floorY)
-    {
-        m_position.y = floorY;
-        m_velocity_y = 0.0f;
-        m_grounded = true;
-        m_jumping = false;
-    }
-
-    // Save grounded state at end of frame for next frame's jump check
-    m_was_grounded = m_grounded;
 }
 
 void Character::ResolveCollision(float platformTop)
@@ -72,7 +59,6 @@ void Character::ResolveCollision(float platformTop)
     m_position.y = platformTop - m_texture->GetHeight();
     m_velocity_y = 0.0f;
     m_grounded = true;
-    m_was_grounded = true;
     m_jumping = false;
 }
 
