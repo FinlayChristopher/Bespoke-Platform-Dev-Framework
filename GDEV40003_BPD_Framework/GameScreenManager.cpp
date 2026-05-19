@@ -27,22 +27,34 @@ void GameScreenManager::Update(float deltaTime, SDL_Event e)
 }
 
 void GameScreenManager::ChangeScreen(SCREENS new_screen) {
-    // Clean up the old screen first
     if (m_current_screen != nullptr) {
         delete m_current_screen;
     }
 
-    // Declare temp pointer outside the switch (C++ requirement)
-    GameScreenLevel1* tempScreen;
+    GameScreen* tempScreen = nullptr;
 
     switch (new_screen) {
     case SCREEN_LEVEL1:
         tempScreen = new GameScreenLevel1(m_renderer);
-        m_current_screen = (GameScreen*)tempScreen;  // upcast to base pointer
-        tempScreen = nullptr;
         break;
-
+    case SCREEN_LEVEL2:
+        tempScreen = new GameScreenLevel2(m_renderer);
+        break;
+    case SCREEN_INTRO:
+        tempScreen = new GameScreenIntro(m_renderer);
+        break;
+    case SCREEN_MENU:
+        tempScreen = new GameScreenMenu(m_renderer);
+        break;
+    case SCREEN_GAMEOVER:
+        tempScreen = new GameScreenGameOver(m_renderer);
+        break;
+    case SCREEN_HIGHSCORES:
+        tempScreen = new GameScreenHighScores(m_renderer);
+        break;
     default:
         break;
     }
+
+    m_current_screen = tempScreen;
 }

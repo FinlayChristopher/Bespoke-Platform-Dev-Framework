@@ -25,6 +25,12 @@ GameScreenLevel1::~GameScreenLevel1()
         delete p;
     }
     m_platforms.clear();
+
+    for (Pickups* pickup : m_pickups)
+    {
+        delete pickup;
+    }
+    m_pickups.clear();
 }
 
 void GameScreenLevel1::Render()
@@ -37,14 +43,15 @@ void GameScreenLevel1::Render()
     {
         p->Render();
     }
+
+    if (m_current_pickup < m_pickups.size())
+    {
+        m_pickups[m_current_pickup]->Render();
+    }
 }
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 {
-    // Reset grounded before Update so jump check uses last frame's value
-    // then floor/platform sets it back at end of this frame
-    //my_character->SetGrounded(false);
-
     if (my_character)
         my_character->Update(deltaTime, e);
 
@@ -65,23 +72,47 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
             float platRight = platBox.x + platBox.w;
             float lastCharBottom = my_character->GetLastPositionY() + charBox.h;
 
-            if (lastCharBottom <= platTop + 5.0f && my_character->GetVelocityY() >= 0)
+            std::cout << "HIT! lastCharBottom: " << lastCharBottom
+                << " platTop: " << platTop
+                << " velocityY: " << my_character->GetVelocityY() << std::endl;
+
+            // Top collision — was above platform last frame
+            if (lastCharBottom <= platTop + 10.0f && my_character->GetVelocityY() >= 0)
             {
                 my_character->ResolveCollision(platTop);
             }
-            else if (charTop < platBottom && lastCharBottom > platBottom)
+            // Underside collision
+            else if (my_character->GetVelocityY() < 0 && charTop < platBottom)
             {
                 my_character->SetPosition(Vector2D(charBox.x, platBottom));
                 my_character->SetVelocityY(0);
             }
-            else if (charRight > platLeft && charLeft < platLeft)
+            // Side collision — only move horizontally
+            else
             {
-                my_character->SetPosition(Vector2D(platLeft - charBox.w, charBox.y));
+                float overlapLeft = charRight - platLeft;
+                float overlapRight = platRight - charLeft;
+
+                if (overlapLeft < overlapRight)
+                    my_character->SetPosition(Vector2D(platLeft - charBox.w, charBox.y));
+                else
+                    my_character->SetPosition(Vector2D(platRight, charBox.y));
             }
-            else if (charLeft < platRight && charRight > platRight)
-            {
-                my_character->SetPosition(Vector2D(platRight, charBox.y));
-            }
+        }
+    }
+
+    if (m_current_pickup < m_pickups.size())
+    {
+        Pickups* active = m_pickups[m_current_pickup];
+        if (Collisions::Instance()->Box(my_character, active))
+        {
+            active->Collect();
+            m_current_pickup++;
+            std::cout << "Pickup collected! "
+                << m_current_pickup << " / "
+                << m_pickups.size() << std::endl;
+            if (m_current_pickup >= m_pickups.size())
+                std::cout << "All pickups collected!" << std::endl;
         }
     }
 }
@@ -100,23 +131,92 @@ bool GameScreenLevel1::SetUpLevel()
     }
     m_background_texture->setSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
 
-    // Create 5 platforms in random locations
     int platformCount = 5;
-    int platWidth = 128;
-    int platHeight = 32;
+    int platformWidth = 128;
+    int platformHeight = 24;
+    int minDistanceX = platformWidth + 80;
+    int minDistanceY = platformHeight + 80;
+
+    int safetyLimit = 1000;
+    int safetyCount = 0;
+
 
     for (int i = 0; i < platformCount; i++)
     {
-        int randX = rand() % (SCREEN_WIDTH - platWidth);
-        int randY = 200 + rand() % (SCREEN_HEIGHT - 200 - platHeight);
+        
+        while (!validPosition && safetyCount < safetyLimit)
+        {
+            safetyCount++;
+            randX = rand() % (SCREEN_WIDTH - platformWidth);
+            randY = 150 + rand() % (SCREEN_HEIGHT - 250 - platformHeight);
 
-        Platform* p = new Platform(
-            m_renderer,
-            "Images/YellowPlatform.PNG",
-            Vector2D(randX, randY)
-        );
-        m_platforms.push_back(p);
+            validPosition = true;
+
+            for (Platform* existing : m_platforms)
+            {
+                Rect2D existingBox = existing->GetCollisionBox();
+                bool tooCloseX = abs(randX - existingBox.x) < minDistanceX;
+                bool tooCloseY = abs(randY - existingBox.y) < minDistanceY;
+
+                if (tooCloseX && tooCloseY)
+                {
+                    validPosition = false;
+                    break;
+                }
+            }
+        }
+
+        // Only add platform if a valid position was found
+        if (safetyCount < safetyLimit)
+        {
+            Platform* p = new Platform(
+                m_renderer,
+                "Images/platform.png",
+                Vector2D(randX, randY),
+                platformWidth,
+                platformHeight
+            );
+            m_platforms.push_back(p);
+        }
     }
+    // NO extra } here
+
+    int pickupCount = 5;
+    int attempts = 0;
+
+    while (m_pickups.size() < pickupCount && attempts < 100)
+    {
+        attempts++;
+        int randX = rand() % (SCREEN_WIDTH - 32);
+        int randY = rand() % (SCREEN_HEIGHT - 100);
+
+        Rect2D pickupBox(randX, randY, 32, 32);
+
+        bool overlaps = false;
+        for (Platform* p : m_platforms)
+        {
+            Rect2D platBox = p->GetCollisionBox();
+            if (pickupBox.x < platBox.x + platBox.w &&
+                pickupBox.x + pickupBox.w > platBox.x &&
+                pickupBox.y < platBox.y + platBox.h &&
+                pickupBox.y + pickupBox.h > platBox.y)
+            {
+                overlaps = true;
+                break;
+            }
+        }
+
+        if (!overlaps)
+        {
+            Pickups* pickup = new Pickups(
+                m_renderer,
+                "Images/letter.PNG",
+                Vector2D(randX, randY)
+            );
+            m_pickups.push_back(pickup);
+        }
+    }
+    m_current_pickup = 0;
 
     return true;
 }

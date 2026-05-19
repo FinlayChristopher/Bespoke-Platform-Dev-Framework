@@ -137,6 +137,7 @@
     <ClCompile Include="GameScreenLevel1.cpp" />
     <ClCompile Include="GameScreenManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Pickups.cpp" />
     <ClCompile Include="platform.cpp" />
     <ClCompile Include="Texture2D.cpp" />
   </ItemGroup>
@@ -152,6 +153,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScreenLevel1.h" />
     <ClInclude Include="GameScreenManager.h" />
+    <ClInclude Include="Pickups.h" />
     <ClInclude Include="platform.h" />
     <ClInclude Include="Texture2D.h" />
   </ItemGroup>

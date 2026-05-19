@@ -10,6 +10,7 @@ Character::Character(SDL_Renderer* renderer, std::string imagePath, Vector2D sta
 {
     m_velocity_y = 0.0f;
     m_grounded = false;
+    m_was_grounded = false;
     m_jumping = false;
     m_wasSpacePressed = false;
     m_last_position_y = startPosition.y;
@@ -32,27 +33,27 @@ void Character::Update(float deltaTime, SDL_Event e)
         m_position.x += MOVE_SPEED * deltaTime;
 
     bool spaceHeld = keystates[SDL_SCANCODE_SPACE] || keystates[SDL_SCANCODE_W];
-    if (spaceHeld && !m_wasSpacePressed && m_grounded)
+
+    // Use m_was_grounded — this is grounded state from END of last frame
+    // so it's reliable regardless of when m_grounded resets this frame
+    if (spaceHeld && !m_wasSpacePressed && m_was_grounded)
     {
         m_velocity_y = JUMP_FORCE;
-        m_grounded = false;
         m_jumping = true;
+        m_grounded = false;
+        m_was_grounded = false;
     }
     m_wasSpacePressed = spaceHeld;
 
+    // Reset grounded — floor/platform will set it back
+    m_grounded = false;
+
     m_last_position_y = m_position.y;
 
-    if (!m_grounded)
-    {
-        m_velocity_y += GRAVITY * deltaTime;
-    }
-    else
-    {
-        m_velocity_y = 0.0f;
-    }
-
+    m_velocity_y += GRAVITY * deltaTime;
     m_position.y += m_velocity_y * deltaTime;
 
+    // Screen floor
     float floorY = 416.0f - m_texture->GetHeight();
     if (m_position.y >= floorY)
     {
@@ -61,6 +62,9 @@ void Character::Update(float deltaTime, SDL_Event e)
         m_grounded = true;
         m_jumping = false;
     }
+
+    // Save grounded state at end of frame for next frame's jump check
+    m_was_grounded = m_grounded;
 }
 
 void Character::ResolveCollision(float platformTop)
@@ -68,6 +72,7 @@ void Character::ResolveCollision(float platformTop)
     m_position.y = platformTop - m_texture->GetHeight();
     m_velocity_y = 0.0f;
     m_grounded = true;
+    m_was_grounded = true;
     m_jumping = false;
 }
 

@@ -4,6 +4,7 @@
 #include "Commons.h"
 #include "Character.h"
 #include "platform.h"
+#include "Pickups.h"
 #include <vector>
 
 
@@ -17,6 +18,9 @@ private:
     bool SetUpLevel();
     Character* my_character;
     std::vector<Platform*> m_platforms;
+
+    std::vector<Pickups*> m_pickups;
+    int m_current_pickup;
 public:
     GameScreenLevel1(SDL_Renderer* renderer);
     ~GameScreenLevel1();

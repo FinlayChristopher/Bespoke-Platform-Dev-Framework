@@ -18,6 +18,7 @@ public:
 private:
     float m_velocity_y;
     bool m_grounded;
+    bool m_was_grounded;
     bool m_jumping;
     bool m_wasSpacePressed;
     float m_last_position_y;
