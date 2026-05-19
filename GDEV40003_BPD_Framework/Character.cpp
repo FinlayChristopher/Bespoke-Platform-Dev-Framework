@@ -42,14 +42,8 @@ void Character::Update(float deltaTime, SDL_Event e)
 
     m_last_position_y = m_position.y;
 
-    if (!m_grounded)
-    {
-        m_velocity_y += GRAVITY * deltaTime;
-    }
-    else
-    {
-        m_velocity_y = 0.0f;
-    }
+    // Always apply gravity unless grounded (simplified)
+    m_velocity_y += GRAVITY * deltaTime;
 
     m_position.y += m_velocity_y * deltaTime;
 
@@ -60,6 +54,10 @@ void Character::Update(float deltaTime, SDL_Event e)
         m_velocity_y = 0.0f;
         m_grounded = true;
         m_jumping = false;
+    }
+    else
+    {
+        m_grounded = false;  // <-- KEY: Unground if above floor
     }
 }
 
