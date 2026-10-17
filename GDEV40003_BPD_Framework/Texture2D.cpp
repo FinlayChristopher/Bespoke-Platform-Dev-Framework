@@ -7,7 +7,6 @@ using namespace std;
 Texture2D::Texture2D(SDL_Renderer* renderer)
 {
     m_renderer = renderer;
-
 }
 
 // Destructor: always clean up before the object is destroyed

@@ -1,10 +1,11 @@
 #include "SDL.h"
 #include "SDL_image.h"
 #include "constants.h"
-#include <iostream>
 #include "Texture2D.h"
 #include "Commons.h"
 #include "GameScreenManager.h"
+#include "SDL_ttf.h"
+#include <iostream>
 
 //Globals:
 SDL_Window* g_window = nullptr;
@@ -84,9 +85,14 @@ bool InitSDL()
 		return false;
 	}
 
+	if (TTF_Init() == -1)
+	{
+		std::cout << "SDL_ttf could not initialise: " << TTF_GetError() << std::endl;
+		return false;
+	}
+
 	game_screen_manager = new GameScreenManager(g_renderer, SCREEN_LEVEL1);
 	g_old_time = SDL_GetTicks();
-
 
 	g_texture = new Texture2D(g_renderer);
 	if (!g_texture->LoadFromFile("Images/TallDarkAndHandsome.PNG"))
@@ -107,6 +113,7 @@ void CloseSDL()
 	g_renderer = nullptr;
 	SDL_DestroyWindow(g_window);
 	g_window = nullptr;
+	TTF_Quit();
 	SDL_Quit();
 };
 
