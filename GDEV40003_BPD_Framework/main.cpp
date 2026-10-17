@@ -41,7 +41,6 @@ int main(int argc, char* argv[])
 
 bool InitSDL()
 {
-	game_screen_manager = new GameScreenManager(g_renderer, SCREEN_LEVEL1);
 	g_old_time = SDL_GetTicks();
 	
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_EVENTS) < 0)
@@ -49,7 +48,6 @@ bool InitSDL()
 		std::cout << "SDL could not initialise. SDL error: " << SDL_GetError() << std::endl;
 		return false;
 	}
-	
 	
 	g_window = SDL_CreateWindow("Bespoke Platform Development",
 		SDL_WINDOWPOS_UNDEFINED,

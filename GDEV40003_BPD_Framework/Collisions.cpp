@@ -10,16 +10,16 @@ Collisions::Collisions()
 
 Collisions::~Collisions()
 {
-    m_instance = nullptr;        // prevent dangling pointer after destruction
+    m_instance = nullptr; // prevent dangling pointer after destruction
 }
 
 Collisions* Collisions::Instance()
 {
-    if (!m_instance)                       // nullptr on first call
+    if (!m_instance) // nullptr on first call
     {
-        m_instance = new Collisions;     // create the single instance
+        m_instance = new Collisions; // create the single instance
     }
-    return m_instance;                     // always return the same pointer
+    return m_instance; // always return the same pointer
 }
 
 bool Collisions::Circle(GameObject* a, GameObject* b)

@@ -96,6 +96,12 @@ void GameScreenLevel1::CheckPlatformCollisions()
 
         float landingTolerance = platBox.h / 2.0f;
 
+        /*if (lastCharBottom <= platTop + landingTolerance && m_character->GetVelocityY() >= 0)
+        {
+            m_character->ResolveCollision(platTop);
+            continue;
+        }*/
+
         if (lastCharBottom <= platTop + landingTolerance && m_character->GetVelocityY() >= 0)
         {
             m_character->ResolveCollision(platTop);

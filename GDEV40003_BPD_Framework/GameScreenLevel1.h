@@ -22,7 +22,11 @@ private:
     GameScreenManager* m_screen_manager;
 
     bool SetUpLevel();
-
+    bool SetUpPlatforms();
+    bool SetUpPickups();
+    void CheckPlatformCollisions();
+    void CheckScreenBorders();
+    void CheckPickupCollisions();
 public:
     GameScreenLevel1(SDL_Renderer* renderer, GameScreenManager* manager = nullptr);
     ~GameScreenLevel1();

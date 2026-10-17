@@ -3,21 +3,21 @@
 #include <iostream>
 using namespace std;
 
-// Constructor — store the renderer for later use
+// Constructor: store the renderer for later use
 Texture2D::Texture2D(SDL_Renderer* renderer)
 {
     m_renderer = renderer;
 
 }
 
-// Destructor — always clean up before the object is destroyed
+// Destructor: always clean up before the object is destroyed
 Texture2D::~Texture2D()
 {
     Free();                 // destroy the SDL texture
     m_renderer = nullptr;   // don't leave a dangling pointer
 }
 
-// Free — releases GPU memory if a texture exists
+// Free: releases GPU memory if a texture exists
 void Texture2D::Free()
 {
     if (m_texture != nullptr)
@@ -29,7 +29,7 @@ void Texture2D::Free()
     }
 }
 
-// LoadFromFile — replaces the old global LoadTextureFromFile function
+// LoadFromFile: replaces the old global LoadTextureFromFile function
 bool Texture2D::LoadFromFile(std::string path)
 {
     Free(); // clear any existing texture first
@@ -64,7 +64,7 @@ bool Texture2D::LoadFromFile(std::string path)
     return m_texture != nullptr; // true = success
 }
 
-// Render — draws the texture at new_position with optional flip and rotation
+// Render: draws the texture at new_position with optional flip and rotation
 void Texture2D::Render(Vector2D new_position, SDL_RendererFlip flip, double angle)
 { 
     SDL_Rect renderLocation = 

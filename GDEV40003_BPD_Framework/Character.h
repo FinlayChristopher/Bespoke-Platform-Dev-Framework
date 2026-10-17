@@ -22,4 +22,6 @@ private:
     bool m_jumping;
     bool m_wasSpacePressed;
     float m_last_position_y;
+    void HandleInput(float deltaTime);
+    void ApplyPhysics(float deltaTime);
 };

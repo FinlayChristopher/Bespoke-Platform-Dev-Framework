@@ -31,11 +31,11 @@ void Character::Render()
 
 void Character::Update(float deltaTime, SDL_Event e)
 {
-    HandleInput();
+    HandleInput(deltaTime);
     ApplyPhysics(deltaTime);
 }
 
-void Character::HandleInput()
+void Character::HandleInput(float deltaTime)
 {
     const Uint8* keystates = SDL_GetKeyboardState(NULL);
 
